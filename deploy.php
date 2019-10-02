@@ -16,9 +16,20 @@
  * Rename `deploy-config.example.php` to `deploy-config.php` and edit the
  * configuration options there instead of here. That way, you won't have to edit
  * the configuration again if you download the new version of `deploy.php`.
+ *
+ * If you use multiple sites deploy on the same location you can use:
+ * e.g. deploy.php?config=domain.com&sat=Bett...
+ * and the script will load domain.com-config.php file for configuration
  */
-if (file_exists(basename(__FILE__, '.php').'-config.php')) {
-	define('CONFIG_FILE', basename(__FILE__, '.php').'-config.php');
+
+if (isset($_GET['config']) {
+	$site_config = $_GET['config'];
+}else{
+	$site_config = basename(__FILE__, '.php');
+}
+
+if (isset($_GET['config'] && file_exists($site_config.'-config.php')) {
+	define('CONFIG_FILE', ($site_config.'-config.php'));
 	require_once CONFIG_FILE;
 } else {
 	define('CONFIG_FILE', __FILE__);
